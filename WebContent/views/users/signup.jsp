@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resource/css/custom.css">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resource/css/bootstrap.css">
-<script src="${pageContext.request.contextPath }/resource/js/jquery-3.2.0.js"></script>
+<script src="${pageContext.request.contextPath }/resource/js/jquery-3.2.0.js"></script> 
 </head>
 <body>
 
