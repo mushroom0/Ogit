@@ -10,7 +10,9 @@
 <%@include file = "/myResource.jsp" %>
 </head>
 <body>
-
+	<ul>
+		<li><a href="a.jsp">a</a></li>
+	</ul>
 </body>
 </html>
 
