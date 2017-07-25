@@ -16,7 +16,7 @@ CREATE TABLE CODI (
 	a_item_no   NUMBER           NULL,     -- 악세사리상품번호
 	info        VARCHAR(200)     NOT NULL, -- 코디설명
 	price       NUMBER           NOT NULL, -- 코디가격
-	liked       NUMBER           NOT NULL DEFAULT 0, -- 좋아요
+	liked       NUMBER DEFAULT 0 NOT NULL, -- 좋아요
 	regist_date DATE             NOT NULL, -- 코디등록일
 	delete_date DATE             NULL      -- 코디삭제일
 );
@@ -24,11 +24,11 @@ CREATE SEQUENCE CODI_SEQ;
 -- 코디
 ALTER TABLE CODI
 	ADD
-		CONSTRAINT FK_MEMEBERS_TO_CODI -- 회원 -> 코디
+		CONSTRAINT FK_MEMBERS_TO_CODI -- 회원 -> 코디
 		FOREIGN KEY (
 			members_id -- 회원식별번호
 		)
-		REFERENCES MEMEBERS ( -- 회원
+		REFERENCES MEMBERS ( -- 회원
 			id -- 회원식별번호
 		)
 		ON DELETE NO ACTION
@@ -43,7 +43,7 @@ CREATE TABLE CODI_COMMENT (
 	update_date   DATE               NULL,     -- 댓글수정일
 	delete_date   DATE               NULL,     -- 댓글삭제일
 	delete_reason VARCHAR(50)        NULL,     -- 삭제사유
-	likes         NUMBER             NULL     DEFAULT 0 -- 댓글추천수
+	likes         NUMBER DEFAULT 0   NULL      -- 댓글추천수
 );
 CREATE SEQUENCE CODI_COMMENT_SEQ;
 -- 코디 댓글
@@ -76,17 +76,17 @@ CREATE SEQUENCE ADDRESS_BOOK_SEQ;
 -- 회원 배송지 주소록
 ALTER TABLE ADDRESS_BOOK
 	ADD
-		CONSTRAINT FK_MEMEBERS_TO_ADDRESS_BOOK -- 회원 -> 회원 배송지 주소록
+		CONSTRAINT FK_MEMBERS_TO_ADDRESS_BOOK -- 회원 -> 회원 배송지 주소록
 		FOREIGN KEY (
 			members_id -- 회원식별번호
 		)
-		REFERENCES MEMEBERS ( -- 회원
+		REFERENCES MEMBERS ( -- 회원
 			id -- 회원식별번호
 		)
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION;
 -- 장바구니
-CREATE TABLE MEMEBERS_BASCKET (
+CREATE TABLE MEMBERS_BASCKET (
 	seq                NUMBER      		PRIMARY KEY, -- 식별번호
 	members_id         VARCHAR(15 CHAR) NOT NULL, -- 회원식별번호
 	product_detail_seq NUMBER      		NOT NULL, -- 상품옵션식별번호
@@ -96,22 +96,22 @@ CREATE TABLE MEMEBERS_BASCKET (
 );
 CREATE SEQUENCE MEMBERS_BASCKET_SEQ;
 -- 장바구니
-ALTER TABLE MEMEBERS_BASCKET
+ALTER TABLE MEMBERS_BASCKET
 	ADD
-		CONSTRAINT FK_MEMEBERS_TO_MEMEBERS_BASCKET -- 회원 -> 장바구니
+		CONSTRAINT FK_MEMBERS_TO_MEMBERS_BASCKET -- 회원 -> 장바구니
 		FOREIGN KEY (
 			members_id -- 회원식별번호
 		)
-		REFERENCES MEMEBERS ( -- 회원
+		REFERENCES MEMBERS ( -- 회원
 			id -- 회원식별번호
 		)
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION;
 
 -- 장바구니
-ALTER TABLE MEMEBERS_BASCKET
+ALTER TABLE MEMBERS_BASCKET
 	ADD
-		CONSTRAINT FK_PRODUCT_DETAIL_TO_MEMEBERS_BASCKET -- 상품옵션 -> 장바구니
+		CONSTRAINT FK_PRODUCT_DETAIL_TO_MEMBERS_BASCKET -- 상품옵션 -> 장바구니
 		FOREIGN KEY (
 			product_detail_seq -- 상품옵션식별번호
 		)
@@ -123,27 +123,27 @@ ALTER TABLE MEMEBERS_BASCKET
 ----------------------------------------------------------------
 
 -- 회원
-CREATE TABLE MEMEBERS (
-	id             VARCHAR(15 CHAR) PRIMARY KEY, -- 아이디
-	pwd            VARCHAR(50 CHAR) NOT NULL, -- 비밀번호
-	type           CHAR             NOT NULL, -- 회원타입
-	name           VARCHAR(10 CHAR) NOT NULL, -- 이름
-	nickname       VARCHAR(8 CHAR)  NOT NULL, -- 별명
-	email          VARCHAR(30 CHAR) NOT NULL, -- 이메일
-	is_rec_mail    NUMBER(1)        NULL,     -- 이메일수신여부
-	phone          VARCHAR(12 CHAR) NOT NULL, -- 전화번호
-	is_rec_sms     NUMBER(1)        NULL,     -- sms수신여부
-	birth          VARCHAR(10)      NOT NULL, -- 생년월일
-	gender         NUMBER(1)        NOT NULL DEFAULT 1, -- 성별
-	zipcode        VARCHAR(8 CHAR)  NOT NULL, -- 우편번호
-	address        VARCHAR(20 CHAR) NOT NULL, -- 주소
-	address_detail VARCHAR(30 CHAR) NOT NULL, -- 상세주소
-	f_brand        VARCHAR(30 CHAR) NULL,     -- 선호브랜드
-	followers      NUMBER           NULL,     -- 팔로워수
-	f_color        NUMBER           NULL,     -- 선호색상
-	job            VARCHAR(20 CHAR) NULL,     -- 직업
-	join_date      DATE             NOT NULL, -- 가입일
-	is_member      NUMBER(1)        NOT NULL DEFAULT 1 -- 회원여부
+CREATE TABLE MEMBERS (
+	id             VARCHAR(15 CHAR) 	PRIMARY KEY, -- 아이디
+	pwd            VARCHAR(50 CHAR) 	NOT NULL, -- 비밀번호
+	types          CHAR                 NOT NULL, -- 회원타입
+	name           VARCHAR(10 CHAR)		NOT NULL, -- 이름
+	nickname       VARCHAR(8 CHAR) 		NOT NULL, -- 별명
+	email          VARCHAR(30 CHAR) 	NOT NULL, -- 이메일
+	is_rec_mail    NUMBER(1)        	NULL,     -- 이메일수신여부
+	phone          VARCHAR(12 CHAR) 	NOT NULL, -- 전화번호
+	is_rec_sms     NUMBER(1)       		NULL,     -- sms수신여부
+	birth          VARCHAR(10)     		NOT NULL, -- 생년월일
+	gender         NUMBER(1)  DEFAULT 1 NOT NULL, -- 성별
+	zipcode        VARCHAR(8 CHAR)  	NOT NULL, -- 우편번호
+	address        VARCHAR(20 CHAR) 	NOT NULL, -- 주소
+	address_detail VARCHAR(30 CHAR) 	NOT NULL, -- 상세주소
+	f_brand        VARCHAR(30 CHAR) 	NULL,     -- 선호브랜드
+	followers      NUMBER           	NULL,     -- 팔로워수
+	f_color        NUMBER           	NULL,     -- 선호색상
+	job            VARCHAR(20 CHAR) 	NULL,     -- 직업
+	join_date      DATE             	NOT NULL, -- 가입일
+	is_member      NUMBER(1)  DEFAULT 1 NOT NULL  -- 회원여부
 );
 -- 관리자
 CREATE TABLE ADMIN (
@@ -168,11 +168,11 @@ CREATE TABLE FOLLOWING (
 -- 팔로우코디
 ALTER TABLE FOLLOWING
 	ADD
-		CONSTRAINT FK_MEMEBERS_TO_FOLLOWING -- 회원 -> 팔로우코디
+		CONSTRAINT FK_MEMBERS_TO_FOLLOWING -- 회원 -> 팔로우코디
 		FOREIGN KEY (
 			seq -- 회원식별번호
 		)
-		REFERENCES MEMEBERS ( -- 회원
+		REFERENCES MEMBERS ( -- 회원
 			id -- 회원식별번호
 		)
 		ON DELETE NO ACTION
@@ -181,17 +181,17 @@ ALTER TABLE FOLLOWING
 
 -- 상품
 CREATE TABLE Product (
-	seq       NUMBER           PRIMARY KEY, -- 상품식별번호
-	category  VARCHAR(10)      NOT NULL, -- 상품종류
-	brand     NUMBER           NOT NULL, -- 제조사
-	name      VARCHAR(30 CHAR) NOT NULL, -- 상품명
-	orgcost   NUMBER(10)       NOT NULL, -- 판매원가
-	salecost  NUMBER(10)       NOT NULL, -- 판매단가
-	cuscost   NUMBER(10)       NOT NULL, -- 소비자가
-	regdate   DATE             NOT NULL, -- 상품등록일
-	info_img  VARCHAR(100)     NOT NULL, -- 상품상세정보
-	thumbnail VARCHAR(100)     NOT NULL, -- 썸네일
-	like      NUMBER(5)        NOT NULL DEFAULT 0 -- 추천수
+	seq       NUMBER          		PRIMARY KEY, -- 상품식별번호
+	category  VARCHAR(10)     		NOT NULL, -- 상품종류
+	brand     NUMBER          		NOT NULL, -- 제조사
+	name      VARCHAR(30 CHAR) 		NOT NULL, -- 상품명
+	orgcost   NUMBER(10)      		NOT NULL, -- 판매원가
+	salecost  NUMBER(10)      		NOT NULL, -- 판매단가
+	cuscost   NUMBER(10)       		NOT NULL, -- 소비자가
+	regdate   DATE           	 	NOT NULL, -- 상품등록일
+	info_img  VARCHAR(100)   	 	NOT NULL, -- 상품상세정보
+	thumbnail VARCHAR(100)     		NOT NULL, -- 썸네일
+	likes     NUMBER(5) DEFAULT 0 	NOT NULL  -- 추천수
 );
 CREATE SEQUENCE PRODUCT_SEQ;
 -- 상품옵션
@@ -235,29 +235,29 @@ ALTER TABLE Product_image
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION;
 -- 관심상품
-CREATE TABLE MEMEBERS_LIKED (
+CREATE TABLE MEMBERS_LIKED (
 	seq          NUMBER 		  PRIMARY KEY, -- 식별번호
-	memebers_id  VARCHAR(15 CHAR) NOT NULL, -- 회원식별번호
+	MEMBERS_id   VARCHAR(15 CHAR) NOT NULL, -- 회원식별번호
 	item_seq     NUMBER 		  NOT NULL  -- 상품식별번호
 );
 CREATE SEQUENCE MEMBERS_LIKED_SEQ;
 -- 관심상품
-ALTER TABLE MEMEBERS_LIKED
+ALTER TABLE MEMBERS_LIKED
 	ADD
-		CONSTRAINT FK_MEMEBERS_TO_MEMEBERS_LIKED -- 회원 -> 관심상품
+		CONSTRAINT FK_MEMBERS_TO_MEMBERS_LIKED -- 회원 -> 관심상품
 		FOREIGN KEY (
-			memebers_id -- 회원식별번호
+			MEMBERS_id -- 회원식별번호
 		)
-		REFERENCES MEMEBERS ( -- 회원
+		REFERENCES MEMBERS ( -- 회원
 			id -- 회원식별번호
 		)
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION;
 
 -- 관심상품
-ALTER TABLE MEMEBERS_LIKED
+ALTER TABLE MEMBERS_LIKED
 	ADD
-		CONSTRAINT FK_Product_TO_MEMEBERS_LIKED -- 상품 -> 관심상품
+		CONSTRAINT FK_Product_TO_MEMBERS_LIKED -- 상품 -> 관심상품
 		FOREIGN KEY (
 			item_seq -- 상품식별번호
 		)
@@ -325,11 +325,11 @@ CREATE SEQUENCE ORDER_SEQ;
 -- 주문테이블
 ALTER TABLE ORDER
 	ADD
-		CONSTRAINT FK_MEMEBERS_TO_ORDER -- 회원 -> 주문테이블
+		CONSTRAINT FK_MEMBERS_TO_ORDER -- 회원 -> 주문테이블
 		FOREIGN KEY (
 			members_id -- 회원식별번호
 		)
-		REFERENCES MEMEBERS ( -- 회원
+		REFERENCES MEMBERS ( -- 회원
 			id -- 회원식별번호
 		)
 		ON DELETE NO ACTION
@@ -339,7 +339,7 @@ CREATE TABLE ORDER_ITEM_OPTION (
 	seq                NUMBER PRIMARY KEY, -- 식별번호
 	order_seq          NUMBER NOT NULL, -- 주문번호
 	product_detail_seq NUMBER NOT NULL, -- 상품옵션
-	count              NUMBER NOT NULL  -- 수량
+	stock              NUMBER NOT NULL  -- 수량
 );
 CREATE SEQUENCE ORDER_ITEM_OPTION_SEQ;
 -- 주문상품옵션
@@ -431,7 +431,7 @@ CREATE TABLE NOTICE (
 	seq            NUMBER           PRIMARY KEY, -- 식별번호
 	admin_id       VARCHAR(15 CHAR) NOT NULL, -- 관리자 식별번호
 	title          VARCHAR(15 CHAR) NOT NULL, -- 제목
-	type           NUMBER(1)        NOT NULL, -- 글타입
+	types          NUMBER(1)        NOT NULL, -- 글타입
 	contents       CLOB             NOT NULL, -- 내용
 	org_file_name  VARCHAR(50 CHAR) NULL,     -- 첨부파일명
 	save_file_name VARCHAR(50 CHAR) NULL,     -- 저장된파일명
@@ -463,7 +463,7 @@ CREATE TABLE QNA (
 	title       VARCHAR(15 CHAR) NOT NULL, -- 제목
 	content     CLOB             NOT NULL, -- 내용
 	writer      VARCHAR(10 CHAR) NOT NULL, -- 작성자이름
-	type        NUMBER(1)        NOT NULL, -- 게시글타입
+	types       NUMBER(1)        NOT NULL, -- 게시글타입
 	parent_seq  NUMBER           NOT NULL, -- 부모게시글번호
 	regist_date DATE             NOT NULL, -- 작성일
 	update_date DATE             NULL      -- 수정일
@@ -484,11 +484,11 @@ ALTER TABLE QNA
 -- 1:1 문의
 ALTER TABLE QNA
 	ADD
-		CONSTRAINT FK_MEMEBERS_TO_QNA -- 회원 -> 1:1 문의
+		CONSTRAINT FK_MEMBERS_TO_QNA -- 회원 -> 1:1 문의
 		FOREIGN KEY (
 			member_id -- 회원식별번호
 		)
-		REFERENCES MEMEBERS ( -- 회원
+		REFERENCES MEMBERS ( -- 회원
 			id -- 회원식별번호
 		)
 		ON DELETE NO ACTION
